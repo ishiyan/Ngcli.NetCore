@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <IsPackable>false</IsPackable>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Ngcli.NetCore</AssemblyName>
+    <Description>Mbrane little Angular ginney pig</Description>
+    <Authors>Mbrane</Authors>
+    <Company>Mbrane</Company>
+    <Copyright>Copyright © 2018 Mbrane. All rights reserved.</Copyright>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
+    <NoWarn>1591</NoWarn>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <NgcliFolder>Ngcli</NgcliFolder>
+    <NgModules>node_modules</NgModules>
+    <Ng>node_modules/.bin/ng</Ng>
+    <AllowNgBuild>true</AllowNgBuild>
+    <AllowNgClean>false</AllowNgClean>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="$(NgcliFolder)\**" />
+    <EmbeddedResource Remove="$(NgcliFolder)\**" />
+    <None Remove="$(NgcliFolder)\**" />
+    <Content Remove="$(NgcliFolder)\**" />
+    <Content Include="$(NgcliFolder)\**" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <Content Remove="$(NgcliFolder)\$(NgModules)\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
+  </ItemGroup>
+
+  <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('$(NgcliFolder)/$(Ng)')">
+    <Message Text="------ Started installation of npm packages ------" Importance="high" />
+    <Message Text="node --version..." Importance="high" />
+    <Exec Command="node --version" ContinueOnError="true" WorkingDirectory="$(NgcliFolder)">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Text="npm --version..." Importance="high" />
+    <Exec Command="npm --version" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="npm install..." Importance="high" />
+    <Exec Command="npm install" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="ng --version..." Importance="high" />
+    <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="------ Finished installation of npm packages ------" Importance="high" />
+  </Target>
+
+  <Target Name="NgBuildDev" BeforeTargets="Build" Condition="$(AllowNgBuild) And '$(Configuration)' == 'Debug'">
+    <Message Text="------ Starting development ng cli build ------" Importance="high" />
+    <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
+    <Exec Command="$(Ng) build" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="------ Finished development ng cli build ------" Importance="high" />
+  </Target>
+
+  <Target Name="NgBuildProd" BeforeTargets="Build" Condition="$(AllowNgBuild) And '$(Configuration)' == 'Release'">
+    <Message Text="------ Starting production ng cli build ------" Importance="high" />
+    <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
+    <Exec Command="$(Ng) build --prod --build-optimizer" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="------ Finished production ng cli build ------" Importance="high" />
+  </Target>
+
+  <Target Name="CleanDist" AfterTargets="Clean" Condition="$(AllowNgClean) And $(AllowNgBuild)">
+    <Message Text="------ Cleaning wwwroot ------" Importance="high" />
+    <Delete Files="wwwroot\**" />
+  </Target>
+
+</Project>
