@@ -4,9 +4,9 @@ services:
   ngclinetcore:
     build:
       context: .
-      dockerfile: Ngcli.NetCore.Dockerfile
+      dockerfile: Dockerfile
     ports:
     - target: 80
       published: 5000
     environment:
-    - ASPNETCORE_ENVIRONMENT=DockerCompose
+    - ASPNETCORE_ENVIRONMENT=Production

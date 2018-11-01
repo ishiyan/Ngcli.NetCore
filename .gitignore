@@ -12,9 +12,13 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-/node_modules/
-/wwwroot/
-/Ngcli/dist/
+Ngcli.NetCore/Ngcli/node_modules/
+Ngcli.NetCore/Ngcli/dist/
+Ngcli.NetCore/wwwroot/
+Ngcli.NetCore/obj/
+Ngcli.NetCore/bin/
+Ngcli.NetCore/.vs/
+docker/
 
 # Build results
 [Dd]ebug/
@@ -332,4 +336,3 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/docker
