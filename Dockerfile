@@ -21,7 +21,7 @@ RUN curl -SL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-lin
 COPY Ngcli.NetCore.csproj .
 RUN dotnet restore Ngcli.NetCore.csproj
 
-COPY * .
+COPY * ./
 RUN dotnet publish -c release -f netcoreapp2.1 -o published Ngcli.NetCore
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
