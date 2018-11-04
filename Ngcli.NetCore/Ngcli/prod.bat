@@ -1,1 +1,1 @@
-.\node_modules\.bin\ng build --prod --build-optimizer
+.\node_modules\.bin\ng build --prod --aot --optimization --build-optimizer --verbose

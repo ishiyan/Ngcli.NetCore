@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mb-ngcli": {
+    "ngcli-netcore": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -49,18 +49,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mb-ngcli:build"
+            "browserTarget": "ngcli-netcore:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mb-ngcli:build:production"
+              "browserTarget": "ngcli-netcore:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mb-ngcli:build"
+            "browserTarget": "ngcli-netcore:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "mb-ngcli-e2e": {
+    "ngcli-netcore-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -104,7 +104,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "mb-ngcli:serve"
+            "devServerTarget": "ngcli-netcore:serve"
           }
         },
         "lint": {
@@ -121,7 +121,7 @@
       }
     }
   },
-  "defaultProject": "mb-ngcli",
+  "defaultProject": "ngcli-netcore",
   "cli": {
     "warnings": {
       "typescriptMismatch": false

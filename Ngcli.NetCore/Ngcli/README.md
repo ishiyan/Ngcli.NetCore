@@ -45,11 +45,6 @@ Or the following if you want to serve it offline:
 </head>
 ```
 
-5. Add to `tsconfig.app.json` and `tsconfig.spec.json`
-```json
-"types": ["MathJax"]
-```
-
 6. Add a new file `mathjax.directive.ts` to the `app` folder
 ```typescript
 import {Directive, ElementRef, Input, OnChanges, OnInit} from '@angular/core';

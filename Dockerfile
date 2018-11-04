@@ -22,7 +22,8 @@ COPY ./NuGet.Config Ngcli.NetCore/
 RUN dotnet restore ./Ngcli.NetCore/Ngcli.NetCore.csproj 
 
 COPY Ngcli.NetCore Ngcli.NetCore/
-RUN dotnet publish -c release -f netcoreapp2.1 -o published Ngcli.NetCore
+WORKDIR /root/src/app/netcoreapp/Ngcli.NetCore
+RUN dotnet publish -c release -f netcoreapp2.1 -o published
 
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime

@@ -17,10 +17,11 @@
     <NoWarn>1591</NoWarn>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <NgcliFolder>Ngcli</NgcliFolder>
-    <NgModules>node_modules</NgModules>
+    <NodeModules>node_modules</NodeModules>
     <Ng>node_modules/.bin/ng</Ng>
     <AllowNgBuild>true</AllowNgBuild>
     <AllowNgClean>false</AllowNgClean>
+    <MathJax>$(NgcliFolder)/node_modules/mathjax</MathJax>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +30,7 @@
     <None Remove="$(NgcliFolder)\**" />
     <Content Remove="$(NgcliFolder)\**" />
     <Content Include="$(NgcliFolder)\**" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
-    <Content Remove="$(NgcliFolder)\$(NgModules)\**" />
+    <Content Remove="$(NgcliFolder)\$(NodeModules)\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,20 +56,42 @@
     <Message Text="ng --version..." Importance="high" />
     <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
     <Message Text="------ Finished installation of npm packages ------" Importance="high" />
+    <Message Text="------ Started removing mathjax assets ------" Importance="high" />
+    <RemoveDir Directories="$(MathJax)" ContinueOnError="true" />
+    <Message Text="------ Finished removing mathjax assets ------" Importance="high" />
+  </Target>
+
+  <Target Name="CopyMathJax" BeforeTargets="BeforeBuild" AfterTargets="NpmInstall" Condition="!Exists('$(NgcliFolder)/src/assets/mathjax/MathJax.js')">
+    <Message Text="------ Started copying mathjax assets ------" Importance="high" />
+    <ItemGroup>
+      <MathJaxFiles Include="$(MathJax)/MathJax.js" />
+      <MathJaxConfigFiles Include="$(MathJax)/config/**/*" />
+      <MathJaxExtensionsFiles Include="$(MathJax)/extensions/**/*" />
+      <MathJaxJaxFiles Include="$(MathJax)/jax/**/*" />
+      <MathJaxLocalizationFiles Include="$(MathJax)/localization/**/*" />
+      <MathJaxFontsFiles Include="$(MathJax)/fonts/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax"/>
+    <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/config/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/extensions/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/jax/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/localization/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/fonts/%(RecursiveDir)"/>
+    <Message Text="------ Finished copying mathjax assets ------" Importance="high" />
   </Target>
 
   <Target Name="NgBuildDev" BeforeTargets="Build" Condition="$(AllowNgBuild) And '$(Configuration)' == 'Debug'">
-    <Message Text="------ Starting development ng cli build ------" Importance="high" />
+    <Message Text="------ Starting ng cli development build ------" Importance="high" />
     <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
     <Exec Command="$(Ng) build" WorkingDirectory="$(NgcliFolder)" />
-    <Message Text="------ Finished development ng cli build ------" Importance="high" />
+    <Message Text="------ Finished ng cli development build ------" Importance="high" />
   </Target>
 
   <Target Name="NgBuildProd" BeforeTargets="Build" Condition="$(AllowNgBuild) And '$(Configuration)' == 'Release'">
-    <Message Text="------ Starting production ng cli build ------" Importance="high" />
+    <Message Text="------ Starting ng cli production build ------" Importance="high" />
     <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
-    <Exec Command="$(Ng) build --prod --build-optimizer" WorkingDirectory="$(NgcliFolder)" />
-    <Message Text="------ Finished production ng cli build ------" Importance="high" />
+    <Exec Command="$(Ng) build --prod --aot --optimization --build-optimizer" WorkingDirectory="$(NgcliFolder)" />
+    <Message Text="------ Finished ng cli production build ------" Importance="high" />
   </Target>
 
   <Target Name="CleanDist" AfterTargets="Clean" Condition="$(AllowNgClean) And $(AllowNgBuild)">

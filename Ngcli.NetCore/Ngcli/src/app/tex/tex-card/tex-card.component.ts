@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import 'mathjax';
 
-import { MathJaxDirective } from '../../shared/math-jax/math-jax.directive';
 import { Sample } from '../samples/sample';
 
 @Component({
