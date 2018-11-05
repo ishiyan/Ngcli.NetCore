@@ -4,7 +4,7 @@ services:
   ngclinetcore:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Ngcli.Netcore.Dockerfile
     ports:
     - target: 80
       published: 5000
