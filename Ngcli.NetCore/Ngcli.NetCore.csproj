@@ -19,9 +19,10 @@
     <NgcliFolder>Ngcli</NgcliFolder>
     <NodeModules>node_modules</NodeModules>
     <Ng>node_modules/.bin/ng</Ng>
+    <MathJax>$(NgcliFolder)/node_modules/mathjax</MathJax>
+    <MathJaxAssets>$(NgcliFolder)/src/assets/mathjax</MathJaxAssets>
     <AllowNgBuild>true</AllowNgBuild>
     <AllowNgClean>false</AllowNgClean>
-    <MathJax>$(NgcliFolder)/node_modules/mathjax</MathJax>
   </PropertyGroup>
 
   <ItemGroup>
@@ -57,12 +58,36 @@
     <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
     <Message Text="------ Finished installation of npm packages ------" Importance="high" />
     <Message Text="------ Started removing mathjax assets ------" Importance="high" />
-    <RemoveDir Directories="$(MathJax)" ContinueOnError="true" />
+
+    <Message Text="--a1-- pwd" Importance="high" />
+    <Exec Command="pwd" ContinueOnError="true" />
+    <Message Text="--a1-- ls -al $(MathJax)" Importance="high" />
+    <Exec Command="ls -al $(MathJax)" ContinueOnError="true" />
+    <Message Text="--a1-- ls -al $(MathJaxAssets)" Importance="high" />
+    <Exec Command="ls -al $(MathJaxAssets)" ContinueOnError="true" />
+
+    <RemoveDir Directories="$(MathJaxAssets)" ContinueOnError="true" />
+
+    <Message Text="--a2-- pwd" Importance="high" />
+    <Exec Command="pwd" ContinueOnError="true" />
+    <Message Text="--a2-- ls -al $(MathJax)" Importance="high" />
+    <Exec Command="ls -al $(MathJax)" ContinueOnError="true" />
+    <Message Text="--a2-- ls -al $(MathJaxAssets)" Importance="high" />
+    <Exec Command="ls -al $(MathJaxAssets)" ContinueOnError="true" />
+
     <Message Text="------ Finished removing mathjax assets ------" Importance="high" />
   </Target>
 
   <Target Name="CopyMathJax" BeforeTargets="BeforeBuild" AfterTargets="NpmInstall" Condition="!Exists('$(NgcliFolder)/src/assets/mathjax/MathJax.js')">
     <Message Text="------ Started copying mathjax assets ------" Importance="high" />
+
+    <Message Text="--b1-- pwd" Importance="high" />
+    <Exec Command="pwd" ContinueOnError="true" />
+    <Message Text="--b1-- ls -al $(MathJax)" Importance="high" />
+    <Exec Command="ls -al $(MathJax)" ContinueOnError="true" />
+    <Message Text="--b1-- ls -al $(MathJaxAssets)" Importance="high" />
+    <Exec Command="ls -al $(MathJaxAssets)" ContinueOnError="true" />
+
     <ItemGroup>
       <MathJaxFiles Include="$(MathJax)/MathJax.js" />
       <MathJaxConfigFiles Include="$(MathJax)/config/**/*" />
@@ -71,12 +96,20 @@
       <MathJaxLocalizationFiles Include="$(MathJax)/localization/**/*" />
       <MathJaxFontsFiles Include="$(MathJax)/fonts/**/*" />
     </ItemGroup>
-    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax"/>
-    <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/config/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/extensions/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/jax/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/localization/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(NgcliFolder)/src/assets/mathjax/fonts/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(MathJaxAssets)"/>
+    <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(MathJaxAssets)/config/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(MathJaxAssets)/extensions/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(MathJaxAssets)/jax/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(MathJaxAssets)/localization/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(MathJaxAssets)/fonts/%(RecursiveDir)"/>
+
+    <Message Text="--b2-- pwd" Importance="high" />
+    <Exec Command="pwd" ContinueOnError="true" />
+    <Message Text="--b2-- ls -al $(MathJax)" Importance="high" />
+    <Exec Command="ls -al $(MathJax)" ContinueOnError="true" />
+    <Message Text="--b2-- ls -al $(MathJaxAssets)" Importance="high" />
+    <Exec Command="ls -al $(MathJaxAssets)" ContinueOnError="true" />
+
     <Message Text="------ Finished copying mathjax assets ------" Importance="high" />
   </Target>
 
