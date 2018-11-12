@@ -143,6 +143,24 @@ rules:
     - nonResourceURLs: ['*']
       verbs: ['*']
 ```
+Grant AKS access to ACR
+```bash
+# get the id of the service principal configured for AKS
+>az aks show --resource-group myResourceGroup --name myAksCluster --query "servicePrincipalProfile.clientId" --output tsv
+CLIENT_ID
+>az aks show --resource-group mbrane --name mbrane1 --query "servicePrincipalProfile.clientId" --output tsv
+92da...
+
+# get the ACR registry resource id
+az acr show --name myAcrName --resource-group myResourceGroup --query "id" --output tsv
+ACR_ID
+az acr show --name mbrane --resource-group mbrane --query "id" --output tsv
+/subscriptions/6dd.../resourceGroups/mbrane/providers/Microsoft.ContainerRegistry/registries/mbrane
+
+# create role assignment
+az role assignment create --assignee CLIENT_ID --role Reader --scope ACR_ID
+az role assignment create --assignee 92da... --role Reader --scope /subscriptions/6dd.../resourceGroups/mbrane/providers/Microsoft.ContainerRegistry/registries/mbrane
+```
 Now you are ready to start Kubernetes explorer.
 ```bash
 >az aks browse --resource-group myResourceGroup --name myAksCluster

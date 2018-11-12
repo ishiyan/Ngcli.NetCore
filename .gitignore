@@ -19,7 +19,6 @@ Ngcli.NetCore/wwwroot/
 Ngcli.NetCore/obj/
 Ngcli.NetCore/bin/
 Ngcli.NetCore/.vs/
-docker/
 
 # Build results
 [Dd]ebug/

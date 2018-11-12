@@ -12,7 +12,7 @@ Try it live at [http://ngclinetcore.westeurope.cloudapp.azure.com](http://ngclin
 
 To run docker image locally, use
 ```bash
-docker build -t foo/bar .
+docker build -t foo/bar -f Ngcli.Netcore.Dockerfile .
 
 docker image list
 # REPOSITORY          TAG                      IMAGE ID            CREATED             SIZE
