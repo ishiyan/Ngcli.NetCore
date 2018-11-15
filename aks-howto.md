@@ -166,3 +166,166 @@ Now you are ready to start Kubernetes explorer.
 >az aks browse --resource-group myResourceGroup --name myAksCluster
 >az aks browse --resource-group mbrane --name mbrane1
 ```
+## Create NGINX ingress controller with static IP address
+```bash
+# get the resource group name of the AKS cluster
+>az aks show --resource-group myResourceGroup --name myAksCluster --query nodeResourceGroup -o tsv
+>az aks show --resource-group mbrane --name mbrane1 --query nodeResourceGroup -o tsv
+MC_mbrane_mbrane1_westeurope
+
+# create a public IP address with the static allocation method
+>az network public-ip create --resource-group MC_mbrane_mbrane1_westeurope --name mbrane1_public_IP --allocation-method static
+{
+  "publicIp": {
+    "dnsSettings": null,
+    "etag": "W/\"d7b68971-7b85-4592-b225-a785aa0a229b\"",
+    "id": "/subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "13.73.228.22",
+    "ipConfiguration": null,
+    "ipTags": [],
+    "location": "westeurope",
+    "name": "mbrane1_public_IP",
+    "provisioningState": "Succeeded",
+    "publicIpAddressVersion": "IPv4",
+    "publicIpAllocationMethod": "Static",
+    "publicIpPrefix": null,
+    "resourceGroup": "MC_mbrane_mbrane1_westeurope",
+    "resourceGuid": "b32b1eb1-826b-49ee-a231-fb3ee59eb3e5",
+    "sku": {
+      "name": "Basic",
+      "tier": "Regional"
+    },
+    "tags": null,
+    "type": "Microsoft.Network/publicIPAddresses",
+    "zones": null
+  }
+}
+>az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, '13.73.228.22')].[id]" --output tsv
+/subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP
+
+# update public IP address with DNS name
+az network public-ip update --ids /subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP --dns-name mbrane1
+{
+  "dnsSettings": {
+    "domainNameLabel": "mbrane1",
+    "fqdn": "mbrane1.westeurope.cloudapp.azure.com",
+    "reverseFqdn": null
+  },
+  "etag": "W/\"a5c89439-3a3b-4113-8944-e066dfff783b\"",
+  "id": "/subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "13.73.228.22",
+  "ipConfiguration": {
+    "etag": null,
+    "id": "/subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/loadBalancers/kubernetes/frontendIPConfigurations/ad226b7f4e8c111e883fb0ea911a4edf",
+    "name": null,
+    "privateIpAddress": null,
+    "privateIpAllocationMethod": null,
+    "provisioningState": null,
+    "publicIpAddress": null,
+    "resourceGroup": "MC_mbrane_mbrane1_westeurope",
+    "subnet": null
+  },
+  "ipTags": [],
+  "location": "westeurope",
+  "name": "mbrane1_public_IP",
+  "provisioningState": "Succeeded",
+  "publicIpAddressVersion": "IPv4",
+  "publicIpAllocationMethod": "Static",
+  "publicIpPrefix": null,
+  "resourceGroup": "MC_mbrane_mbrane1_westeurope",
+  "resourceGuid": "b32b1eb1-826b-49ee-a231-fb3ee59eb3e5",
+  "sku": {
+    "name": "Basic",
+    "tier": "Regional"
+  },
+  "tags": null,
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": null
+}
+
+# deploy the nginx-ingress chart with Helm and specify the public IP address created in the previous step
+>helm install stable/nginx-ingress --name "my" --namespace kube-system --set rbac.create=true --set controller.service.loadBalancerIP="13.73.228.22"
+
+>kubectl get service -l app=nginx-ingress --namespace kube-system
+NAME                               TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                      AGE
+my-nginx-ingress-controller        LoadBalancer   10.0.109.147   13.73.228.22   80:30814/TCP,443:30946/TCP   3m
+my-nginx-ingress-default-backend   ClusterIP      10.0.65.55     <none>         80/TCP                       3m
+
+# install the cert-manager controller
+>helm install stable/cert-manager --namespace kube-system --set ingressShim.defaultIssuerName=letsencrypt-prod --name cert-manager --set ingressShim.defaultIssuerKind=ClusterIssuer --set rbac.create=true
+```
+Create the `cluster-issuer.yaml` file:
+```yaml
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: ivan.shiyan@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}
+```
+Create the `certificates.yaml` file.
+Update the `dnsNames` and `domains` to the DNS name you created before.
+```yaml
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret
+spec:
+  secretName: tls-secret
+  dnsNames:
+  - mbrane1.westeurope.cloudapp.azure.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - mbrane1.westeurope.cloudapp.azure.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+```
+Create the `mbrane1-ingress.yaml`
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mbrane1-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - mbrane1.westeurope.cloudapp.azure.com
+    secretName: tls-secret
+  rules:
+  - host: mbrane1.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path: /ngclinetcore
+        backend:
+          serviceName: ngclinetcore
+          servicePort: 80
+      - path: /hello-world-two
+        backend:
+          serviceName: ingress-demo
+          servicePort: 80
+```
+Then execute
+```bash
+>kubectl apply -f cluster-issuer.yaml
+clusterissuer.certmanager.k8s.io "letsencrypt-prod" created
+
+>kubectl apply -f certificates.yaml
+certificate.certmanager.k8s.io "tls-secret" created
+
+>kubectl apply -f mbrane1-ingress.yaml
+```

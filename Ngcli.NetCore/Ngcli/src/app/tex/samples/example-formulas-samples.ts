@@ -4,7 +4,7 @@ export const exampleFormulasSamples: Sample[] =
     [
         {
             name: '01',
-            code: '\\int_0^{\\infty}{x^{2n}e^{-ax^2}dx}=\\frac{2n-1}{2a}\\int_0^{\\infty}{x^{2(n-1)}e^{-ax^2}dx}=\\frac{(2n-1)!!}{2^{n+1}}\\sqrt{\\frac{\pi}{a^{2n+1}}}' // tslint:disable-line
+            code: '\\int_0^{\\infty}{x^{2n}e^{-ax^2}dx}=\\frac{2n-1}{2a}\\int_0^{\\infty}{x^{2(n-1)}e^{-ax^2}dx}=\\frac{(2n-1)!!}{2^{n+1}}\\sqrt{\\frac{\\pi}{a^{2n+1}}}' // tslint:disable-line
         },
         {
             name: '02',
