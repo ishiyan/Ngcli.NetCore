@@ -328,4 +328,15 @@ clusterissuer.certmanager.k8s.io "letsencrypt-prod" created
 certificate.certmanager.k8s.io "tls-secret" created
 
 >kubectl apply -f mbrane1-ingress.yaml
+ingress.extensions "mbrane1-ingress" created
+```
+
+
+```bash
+>kubectl get pod
+NAME                         READY     STATUS    RESTARTS   AGE
+ngclinetcore-7c6777c-lq4fh   1/1       Running   0          34m
+
+>kubectl exec -ti ngclinetcore-7c6777c-lq4fh bash
+root@ngclinetcore-7c6777c-lq4fh:~#
 ```
