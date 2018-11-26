@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
   </ItemGroup>
 
@@ -72,12 +72,12 @@
       <MathJaxLocalizationFiles Include="$(MathJax)/localization/**/*" />
       <MathJaxFontsFiles Include="$(MathJax)/fonts/**/*" />
     </ItemGroup>
-    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(MathJaxAssets)"/>
-    <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(MathJaxAssets)/config/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(MathJaxAssets)/extensions/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(MathJaxAssets)/jax/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(MathJaxAssets)/localization/%(RecursiveDir)"/>
-    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(MathJaxAssets)/fonts/%(RecursiveDir)"/>
+    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(MathJaxAssets)" />
+    <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(MathJaxAssets)/config/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(MathJaxAssets)/extensions/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(MathJaxAssets)/jax/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(MathJaxAssets)/localization/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(MathJaxAssets)/fonts/%(RecursiveDir)" />
     <Message Text="------ Finished copying mathjax assets ------" Importance="high" />
   </Target>
 
