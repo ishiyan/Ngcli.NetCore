@@ -9,7 +9,9 @@
 8. http://hammerjs.github.io/changelog/
 9. https://github.com/google/material-design-icons/releases
 10. https://github.com/angular/zone.js/blob/master/CHANGELOG.md
-11. 
+11. https://github.com/Microsoft/tslib/releases
+12. https://github.com/zloirock/core-js/blob/master/CHANGELOG.md
+13. 
 
 # MathJax in CLI project
 1. Create a new project

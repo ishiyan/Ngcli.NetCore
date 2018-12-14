@@ -201,6 +201,7 @@ MC_mbrane_mbrane1_westeurope
     "zones": null
   }
 }
+
 >az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, '13.73.228.22')].[id]" --output tsv
 /subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP
 
@@ -331,7 +332,6 @@ certificate.certmanager.k8s.io "tls-secret" created
 ingress.extensions "mbrane1-ingress" created
 ```
 
-
 ```bash
 >kubectl get pod
 NAME                         READY     STATUS    RESTARTS   AGE
@@ -339,4 +339,70 @@ ngclinetcore-7c6777c-lq4fh   1/1       Running   0          34m
 
 >kubectl exec -ti ngclinetcore-7c6777c-lq4fh bash
 root@ngclinetcore-7c6777c-lq4fh:~#
+```
+
+## Add a second static IP address
+```bash
+# create a public IP address with the static allocation method
+>az network public-ip create --resource-group MC_mbrane_mbrane1_westeurope --name mbrane1_public_IP_2 --allocation-method static
+{
+  "publicIp": {
+    "dnsSettings": null,
+    "etag": "W/\"f01afcf4-4565-4b9a-a650-862655326138\"",
+    "id": "/subscriptions/6dd7b982-533a-45d0-b6c7-5dc5bbeaed46/resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP_2",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "104.40.182.64",
+    "ipConfiguration": null,
+    "ipTags": [],
+    "location": "westeurope",
+    "name": "mbrane1_public_IP_2",
+    "provisioningState": "Succeeded",
+    "publicIpAddressVersion": "IPv4",
+    "publicIpAllocationMethod": "Static",
+    "publicIpPrefix": null,
+    "resourceGroup": "MC_mbrane_mbrane1_westeurope",
+    "resourceGuid": "fb888db1-55bb-4b59-91b1-558c2467eb03",
+    "sku": {
+      "name": "Basic",
+      "tier": "Regional"
+    },
+    "tags": null,
+    "type": "Microsoft.Network/publicIPAddresses",
+    "zones": null
+  }
+}
+>az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, '104.40.182.64')].[id]" --output tsv
+/subscriptions/6dd7b982-533a-45d0-b6c7-5dc5bbeaed46/resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP_2
+
+# update public IP address with DNS name
+>az network public-ip update --ids /subscriptions/.../resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP_2 --dns-name ngclinetcore-mbrane1
+tcore-mbrane1
+{
+  "dnsSettings": {
+    "domainNameLabel": "ngclinetcore-mbrane1",
+    "fqdn": "ngclinetcore-mbrane1.westeurope.cloudapp.azure.com",
+    "reverseFqdn": null
+  },
+  "etag": "W/\"0bf4819a-db77-4c76-8afe-27dd76c298f6\"",
+  "id": "/subscriptions/6dd7b982-533a-45d0-b6c7-5dc5bbeaed46/resourceGroups/MC_mbrane_mbrane1_westeurope/providers/Microsoft.Network/publicIPAddresses/mbrane1_public_IP_2",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "104.40.182.64",
+  "ipConfiguration": null,
+  "ipTags": [],
+  "location": "westeurope",
+  "name": "mbrane1_public_IP_2",
+  "provisioningState": "Succeeded",
+  "publicIpAddressVersion": "IPv4",
+  "publicIpAllocationMethod": "Static",
+  "publicIpPrefix": null,
+  "resourceGroup": "MC_mbrane_mbrane1_westeurope",
+  "resourceGuid": "fb888db1-55bb-4b59-91b1-558c2467eb03",
+  "sku": {
+    "name": "Basic",
+    "tier": "Regional"
+  },
+  "tags": null,
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": null
+}
 ```
