@@ -8,7 +8,7 @@ export const symbolSamples: Sample[] =
         },
         {
             name: 'Capital Greek letters',
-            code: 'A\\ B\\ \\Gamma\\ \\Delta\\ E\\ Z\\ H\\ \\Theta\\ I\\ K\\ \\Lambda\\ M\\ N\\ \\Xi\\ O\\ \\Pi\\ R\\ \Sigma\\ T\\ \\Upsilon\\ \\Phi\\ X\\ \\Psi\\ \\Omega' // tslint:disable-line
+            code: 'A\\ B\\ \\Gamma\\ \\Delta\\ E\\ Z\\ H\\ \\Theta\\ I\\ K\\ \\Lambda\\ M\\ N\\ \\Xi\\ O\\ \\Pi\\ R\\ \\Sigma\\ T\\ \\Upsilon\\ \\Phi\\ X\\ \\Psi\\ \\Omega' // tslint:disable-line
         },
         {
             name: 'Greek letters 01',
@@ -136,7 +136,7 @@ export const symbolSamples: Sample[] =
         },
         {
             name: 'Logic',
-            code: '\\forall\\ \\exists\\ \\nexists\\ \\bar{A}\\ \\mid\\ \\wedge\\ \\vee\\ \\neg\\ \\to\\ \\gets\\ \\iff\n\\bigwedge\\ \\bigvee\\ \\diamond\\ \\lozenge\\ \\vdash\\ \\Vdash\\ \\vDash\\ \\Vvdash\\ \\models\\ \\dashv' // tslint:disable-line
+            code: '\\forall\\ \\exists\\ \\nexists\\ \\bar{A}\\ \\mid\\ \\wedge\\ \\svee\\ \\neg\\ \\to\\ \\gets\\ \\iff\n\\bigwedge\\ \\bigvee\\ \\diamond\\ \\lozenge\\ \\vdash\\ \\Vdash\\ \\vDash\\ \\Vvdash\\ \\models\\ \\dashv' // tslint:disable-line
         },
         {
             name: 'Set and logic notation 01',
@@ -161,5 +161,9 @@ export const symbolSamples: Sample[] =
         {
             name: 'Other constructions',
             code: '\\widetilde{abc}\\ \\widehat{abc}\\ \\overleftarrow{abc}\\ \\overrightarrow{abc}\\ \\overline{abc}\\ \\underline{abc}\\ \\underbrace{abc}\\ \\sqrt{abc}\\ \\sqrt[n]{abc}\\ f\'\\ \\frac{abc}{xyz}\\ \\overbrace{abc}' // tslint:disable-line
+        },
+        {
+            name: 'Script style',
+            code: '\\scriptstyle(3 - {3^{2y} - 4xz_1 \\over 2.1})'
         }
     ];
