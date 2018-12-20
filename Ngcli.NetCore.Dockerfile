@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk as builder  
+FROM microsoft/dotnet:2.2-sdk as builder  
  
 RUN mkdir -p /root/src/app/netcoreapp
 WORKDIR /root/src/app/netcoreapp
@@ -26,7 +26,7 @@ WORKDIR /root/src/app/netcoreapp/Ngcli.NetCore
 RUN dotnet publish -c release -f netcoreapp2.1 -o published
 
 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
 WORKDIR /root/  
 COPY --from=builder /root/src/app/netcoreapp/Ngcli.NetCore/published .
