@@ -16,7 +16,7 @@ docker build -t foo/bar -f Ngcli.Netcore.Dockerfile .
 
 docker image list
 # REPOSITORY          TAG                      IMAGE ID            CREATED             SIZE
-# foo/foo             latest                   c887461c1e2a        6 days ago          298MB
+# foo/bar             latest                   c887461c1e2a        6 days ago          298MB
 
 # this will wait Control+C to be stopped
 docker run -p 5000:80 foo/bar

@@ -14,6 +14,7 @@
     <Copyright>Copyright © 2018 Mbrane. All rights reserved.</Copyright>
     <AssemblyVersion>1.0.1</AssemblyVersion>
     <FileVersion>1.0.1.1</FileVersion>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <NoWarn>1591</NoWarn>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <NgcliFolder>Ngcli</NgcliFolder>
@@ -39,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
   </ItemGroup>
 
