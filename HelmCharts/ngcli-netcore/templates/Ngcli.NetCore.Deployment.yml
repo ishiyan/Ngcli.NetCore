@@ -22,10 +22,3 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "{{ .Values.aspnetcore.environment }}"
-        resources:
-          requests:
-            cpu: "500m"
-            memory: "1Gi"
-          limits:
-            cpu: "1"
-            memory: "16Gi"

@@ -76,6 +76,14 @@ Result
 # an Azure Active Directory service principal is used
 >az ad sp create-for-rbac --skip-assignment
 {
+  "appId": "01713f2c-802d-46e6-91bc-9463d9545a01",
+  "displayName": "azure-cli-2019-01-26-22-04-52",
+  "name": "http://azure-cli-2019-01-26-22-04-52",
+  "password": "8647c4b1-566c-46ad-8d23-6b8ac375c6c5",
+  "tenant": "8da2da14-8165-45ea-b36e-56c1e6bbc278"
+}
+/////////
+{
   "appId": "92da3c45-2e76-4e14-bd62-f99881aaed05",
   "displayName": "azure-cli-2018-11-10-12-14-05",
   "name": "http://azure-cli-2018-11-10-12-14-05",
