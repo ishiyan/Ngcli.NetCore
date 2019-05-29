@@ -12,7 +12,7 @@ import { dataOhlcvDaily } from '../../data/data-ohlcv-daily-big';
     encapsulation: ViewEncapsulation.None // does not see css without this
 })
 export class D3tcBrushComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', { static: true }) container: ElementRef;
     @Input() svgheight: any;
 
     constructor(private element: ElementRef) {

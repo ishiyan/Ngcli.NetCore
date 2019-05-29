@@ -8,7 +8,7 @@ import * as d3 from 'd3';
     encapsulation: ViewEncapsulation.None
 })
 export class BrushHandlesComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', { static: true }) container: ElementRef;
     @Input() svgheight: any;
 
     constructor(private element: ElementRef) {

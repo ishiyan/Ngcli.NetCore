@@ -12,7 +12,7 @@ import { dataOhlcvDaily } from '../../data/data-ohlcv-daily';
     styleUrls: ['./d3tc-horizon-chart-bands.component.scss']
 })
 export class D3tcHorizonChartBandsComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', { static: true }) container: ElementRef;
     data: D3Ohlcv[] = dataOhlcvDaily;
     width = 900;
     height = 40;

@@ -11,7 +11,7 @@ import { dataOhlcvDaily } from '../../data/data-ohlcv-daily';
     styleUrls: ['./d3tc-close.component.scss']
 })
 export class D3tcCloseComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', { static: true }) container: ElementRef;
     @Input() svgheight: any;
 
     constructor(private element: ElementRef) {

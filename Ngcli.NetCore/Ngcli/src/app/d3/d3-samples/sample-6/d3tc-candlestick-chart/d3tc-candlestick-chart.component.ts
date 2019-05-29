@@ -11,7 +11,7 @@ import { dataOhlcvDaily } from '../../data/data-ohlcv-daily-big';
     styleUrls: ['./d3tc-candlestick-chart.component.scss']
 })
 export class D3tcCandlestickChartComponent implements OnInit {
-    @ViewChild('container') container: ElementRef;
+    @ViewChild('container', { static: true }) container: ElementRef;
     @Input() svgheight: any;
 
     constructor(private element: ElementRef) {
