@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { MatSelectChange, MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatSelectChange } from '@angular/material/select';
 import * as d3 from 'd3';
 import * as hilbert from './hilbert2d';
 

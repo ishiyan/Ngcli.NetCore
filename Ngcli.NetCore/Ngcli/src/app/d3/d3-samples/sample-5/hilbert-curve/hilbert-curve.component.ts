@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { MatSelectChange, /*MatCheckboxChange,*/ MatSlideToggleChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
+import { /*MatCheckboxChange,*/ MatSlideToggleChange } from '@angular/material/slide-toggle';
 import * as d3 from 'd3';
 
 import * as hilbert from '../hilbert';

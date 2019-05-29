@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
-import { MatSelectChange, MatRadioChange } from '@angular/material';
+import { MatRadioChange } from '@angular/material/radio';
+import { MatSelectChange } from '@angular/material/select';
 import * as d3 from 'd3';
 import * as d3tc from '../../../../shared/d3tc';
 
