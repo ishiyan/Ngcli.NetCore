@@ -59,26 +59,26 @@
     <Exec Command="$(Ng) --version" WorkingDirectory="$(NgcliFolder)" />
     <Message Text="------ Finished installation of npm packages ------" Importance="high" />
     <Message Text="------ Started removing mathjax assets ------" Importance="high" />
-    <RemoveDir Directories="$(MathJaxAssets)" ContinueOnError="true" />
+    <!-- RemoveDir Directories="$(MathJaxAssets)" ContinueOnError="true" /-->
     <Message Text="------ Finished removing mathjax assets ------" Importance="high" />
   </Target>
 
   <Target Name="CopyMathJax" BeforeTargets="BeforeBuild" AfterTargets="NpmInstall" Condition="!Exists('$(NgcliFolder)/src/assets/mathjax/MathJax.js')">
     <Message Text="------ Started copying mathjax assets ------" Importance="high" />
-    <ItemGroup>
+    <!-- ItemGroup>
       <MathJaxFiles Include="$(MathJax)/MathJax.js" />
       <MathJaxConfigFiles Include="$(MathJax)/config/**/*" />
       <MathJaxExtensionsFiles Include="$(MathJax)/extensions/**/*" />
       <MathJaxJaxFiles Include="$(MathJax)/jax/**/*" />
       <MathJaxLocalizationFiles Include="$(MathJax)/localization/**/*" />
       <MathJaxFontsFiles Include="$(MathJax)/fonts/**/*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(MathJaxAssets)" />
+    </ItemGroup -->
+    <!-- Copy SourceFiles="@(MathJaxFiles)" DestinationFolder="$(MathJaxAssets)" />
     <Copy SourceFiles="@(MathJaxConfigFiles)" DestinationFolder="$(MathJaxAssets)/config/%(RecursiveDir)" />
     <Copy SourceFiles="@(MathJaxExtensionsFiles)" DestinationFolder="$(MathJaxAssets)/extensions/%(RecursiveDir)" />
     <Copy SourceFiles="@(MathJaxJaxFiles)" DestinationFolder="$(MathJaxAssets)/jax/%(RecursiveDir)" />
     <Copy SourceFiles="@(MathJaxLocalizationFiles)" DestinationFolder="$(MathJaxAssets)/localization/%(RecursiveDir)" />
-    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(MathJaxAssets)/fonts/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MathJaxFontsFiles)" DestinationFolder="$(MathJaxAssets)/fonts/%(RecursiveDir)" / -->
     <Message Text="------ Finished copying mathjax assets ------" Importance="high" />
   </Target>
 
