@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Ngcli.NetCore.Extensions;
+using System.Collections.Generic;
+using System.IO;
 
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedMember.Global
+using Ngcli.NetCore.Extensions;
 
 namespace Ngcli.NetCore
 {
@@ -16,14 +13,20 @@ namespace Ngcli.NetCore
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app /*, IWebHostEnvironment env*/)
         {
             // Registered before static files to always set header.
             app.UseNwebsec();
+
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames = new List<string> { "index.html" }
+            });
+
+            app.UseStaticFiles();
 
             // To support Angular routing, we need to handle 404 errors.
             // In case a requested resource was not found on the server, it could be a Angular route.
@@ -39,14 +42,6 @@ namespace Ngcli.NetCore
                     await next();
                 }
             });
-
-            app.UseDefaultFiles(new DefaultFilesOptions
-            {
-                DefaultFileNames = new List<string> { "index.html" }
-            });
-
-            app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
         }
     }
 }
