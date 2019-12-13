@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster as builder  
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster as builder  
 
 # we could use alpine image for building, but there is no pre-compiled NodeJS for it.
 # so we use debian image for building
@@ -26,7 +26,7 @@ WORKDIR /app/Ngcli.NetCore
 RUN dotnet publish -c Release -r linux-musl-x64 -o published --self-contained true /p:PublishTrimmed=true
 
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1-alpine AS runtime
 
 WORKDIR /app
 COPY --from=builder /app/Ngcli.NetCore/published ./
